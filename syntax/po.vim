@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:	po (gettext)
 " Maintainer:	Dwayne Bailey <dwayne@translate.org.za>
-" Last Change:	2004 Feb 09
+" Last Change:	2004 Nov 13
 
 " For version 5.x: Clear all syntax items
 " For version 6.x: Quit when a syntax file was already loaded
@@ -34,7 +34,7 @@ syn region poStringSTR	start=+"+ skip=+\\\\\|\\"+ end=+"+ contained
 " Header and Copyright
 syn match     poHeaderItem "\(Project-Id-Version\|Report-Msgid-Bugs-To\|POT-Creation-Date\|PO-Revision-Date\|Last-Translator\|Language-Team\|MIME-Version\|Content-Type\|Content-Transfer-Encoding\|Plural-Forms\|X-Generator\): " contained
 syn match     poHeaderUndefined "\(PACKAGE VERSION\|YEAR-MO-DA HO:MI+ZONE\|FULL NAME <EMAIL@ADDRESS>\|LANGUAGE <LL@li.org>\|text/plain; charset=CHARSET\|ENCODING\)" contained
-syn match     poCopyrightUnset "SOME DESCRIPTIVE TITLE\|FIRST AUTHOR <EMAIL@ADDRESS>, YEAR\|Copyright (C) YEAR Free Software Foundation, Inc" contained
+syn match     poCopyrightUnset "SOME DESCRIPTIVE TITLE\|FIRST AUTHOR <EMAIL@ADDRESS>, YEAR\|Copyright (C) YEAR Free Software Foundation, Inc\|YEAR THE PACKAGE\'S COPYRIGHT HOLDER\|PACKAGE" contained
 
 " Translation comment block including: translator comment, automatic coments, flags and locations
 syn match     poComment "^#.*$"
@@ -54,7 +54,7 @@ syn match  poFormat	"%\(\d\+\$\)\=[-+' #0*]*\(\d*\|\*\|\*\d\+\$\)\(\.\(\d*\|\*\|
 syn match  poFormat	"%%" contained
 
 " msguniq and msgcat conflicts
-syn region poMsguniqError matchgroup=poMsguniqErrorMarkers  start="#-#-#-#-#"  end="#-#-#-#-#\\n"
+syn region poMsguniqError matchgroup=poMsguniqErrorMarkers  start="#-#-#-#-#"  end='#\("\n"\|\)-\("\n"\|\)#\("\n"\|\)-\("\n"\|\)#\("\n"\|\)-\("\n"\|\)#\("\n"\|\)-\("\n"\|\)#\("\n"\|\)\\n' contained
 
 " Obsolete messages
 syn match poObsolete "^#\~.*$" 
