@@ -1,0 +1,10 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=913
+
+This version of po.vim enhances the default PO syntax highlighting within vim to add the following new features and improvements:
+
+* Gettext context entries are highlighted
+* Allows spell checking in msgstr
+
+Please test and report bugs or ask for new feature by emailing dwayne@translate.org.za
+
+NOTE: The long list of original features have been upstreamed and are available in a default vim installation.
