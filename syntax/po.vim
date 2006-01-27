@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:	po (gettext)
 " Maintainer:	Dwayne Bailey <dwayne@translate.org.za>
-" Last Change:	2004 Nov 13
+" Last Change:	2006 Jan 27
 
 " For version 5.x: Clear all syntax items
 " For version 6.x: Quit when a syntax file was already loaded
@@ -14,6 +14,7 @@ endif
 syn sync minlines=10
 
 " Identifiers
+syn match  poStatementMsgCTxt "^msgctxt"
 syn match  poStatementMsgidplural "^msgid_plural" contained
 syn match  poPluralCaseN "[0-9]" contained
 syn match  poStatementMsgstr "^msgstr\(\[[0-9]\]\)" contains=poPluralCaseN
@@ -24,8 +25,10 @@ syn match  poHtmlNot +"<[^<]\+>"+ms=s+1,me=e-1
 syn region poHtmlTranslatables start=+alt=\\"+ms=e-1 end=+\\"+ contained
 
 " Translation blocks
+syn region     poMsgCTxt	matchgroup=poStatementMsgCTxt start=+^msgctxt "+rs=e-1 matchgroup=poStringCTxt end=+^msgid "+me=s-1 contains=poStringCTxt
 syn region     poMsgID	matchgroup=poStatementMsgid start=+^msgid "+rs=e-1 matchgroup=poStringID end=+^msgstr\(\|\[[\]0\[]\]\) "+me=s-1 contains=poStringID,poStatementMsgidplural,poStatementMsgid
 syn region     poMsgSTR	matchgroup=poStatementMsgstr start=+^msgstr\(\|\[[\]0\[]\]\) "+rs=e-1 matchgroup=poStringSTR end=+\n\n+me=s-1 contains=poStringSTR,poStatementMsgstr
+syn region poStringCTxt	start=+"+ skip=+\\\\\|\\"+ end=+"+
 syn region poStringID	start=+"+ skip=+\\\\\|\\"+ end=+"+ contained 
                             \ contains=poSpecial,poFormat,poCommentKDE,poPluralKDE,poKDEdesktopFile,poHtml,poAccelerator,poHtmlNot,poVariable
 syn region poStringSTR	start=+"+ skip=+\\\\\|\\"+ end=+"+ contained 
@@ -33,7 +36,7 @@ syn region poStringSTR	start=+"+ skip=+\\\\\|\\"+ end=+"+ contained
 
 " Header and Copyright
 syn match     poHeaderItem "\(Project-Id-Version\|Report-Msgid-Bugs-To\|POT-Creation-Date\|PO-Revision-Date\|Last-Translator\|Language-Team\|MIME-Version\|Content-Type\|Content-Transfer-Encoding\|Plural-Forms\|X-Generator\): " contained
-syn match     poHeaderUndefined "\(PACKAGE VERSION\|YEAR-MO-DA HO:MI+ZONE\|FULL NAME <EMAIL@ADDRESS>\|LANGUAGE <LL@li.org>\|text/plain; charset=CHARSET\|ENCODING\)" contained
+syn match     poHeaderUndefined "\(PACKAGE VERSION\|YEAR-MO-DA HO:MI+ZONE\|FULL NAME <EMAIL@ADDRESS>\|LANGUAGE <LL@li.org>\|CHARSET\|ENCODING\|INTEGER\|EXPRESSION\)" contained
 syn match     poCopyrightUnset "SOME DESCRIPTIVE TITLE\|FIRST AUTHOR <EMAIL@ADDRESS>, YEAR\|Copyright (C) YEAR Free Software Foundation, Inc\|YEAR THE PACKAGE\'S COPYRIGHT HOLDER\|PACKAGE" contained
 
 " Translation comment block including: translator comment, automatic coments, flags and locations
@@ -91,8 +94,10 @@ if version >= 508 || !exists("did_po_syn_inits")
   HiLink poStatementMsgid   Statement
   HiLink poStatementMsgstr  Statement
   HiLink poStatementMsgidplural  Statement
+  HiLink poStatementMsgCTxt Statement
   HiLink poPluralCaseN      Constant
 
+  HiLink poStringCTxt	    Comment
   HiLink poStringID	    String
   HiLink poStringSTR	    String
   HiLink poCommentKDE       Comment
