@@ -1,7 +1,10 @@
 " Vim syntax file
 " Language:	po (gettext)
 " Maintainer:	Dwayne Bailey <dwayne@translate.org.za>
-" Last Change:	2006 Jan 27
+" Last Change:	2007 Aug 23
+" Contributors: Dwayne Bailey (Most advanced syntax highlighting)
+"               Leonardo Fontenelle (Spell checking)
+"               Nam SungHyun <namsh@kldp.org> (Original maintainer)
 
 " For version 5.x: Clear all syntax items
 " For version 6.x: Quit when a syntax file was already loaded
@@ -30,9 +33,9 @@ syn region     poMsgID	matchgroup=poStatementMsgid start=+^msgid "+rs=e-1 matchg
 syn region     poMsgSTR	matchgroup=poStatementMsgstr start=+^msgstr\(\|\[[\]0\[]\]\) "+rs=e-1 matchgroup=poStringSTR end=+\n\n+me=s-1 contains=poStringSTR,poStatementMsgstr
 syn region poStringCTxt	start=+"+ skip=+\\\\\|\\"+ end=+"+
 syn region poStringID	start=+"+ skip=+\\\\\|\\"+ end=+"+ contained 
-                            \ contains=poSpecial,poFormat,poCommentKDE,poPluralKDE,poKDEdesktopFile,poHtml,poAccelerator,poHtmlNot,poVariable
+                            \ contains=poSpecial,poFormat,poCommentKDE,poPluralKDE,poKDEdesktopFile,poHtml,poAcceleratorId,poHtmlNot,poVariable
 syn region poStringSTR	start=+"+ skip=+\\\\\|\\"+ end=+"+ contained 
-                            \ contains=poSpecial,poFormat,poHeaderItem,poCommentKDEError,poHeaderUndefined,poPluralKDEError,poMsguniqError,poKDEdesktopFile,poHtml,poAccelerator,poHtmlNot,poVariable
+                            \ contains=@Spell,poSpecial,poFormat,poHeaderItem,poCommentKDEError,poHeaderUndefined,poPluralKDEError,poMsguniqError,poKDEdesktopFile,poHtml,poAcceleratorStr,poHtmlNot,poVariable
 
 " Header and Copyright
 syn match     poHeaderItem "\(Project-Id-Version\|Report-Msgid-Bugs-To\|POT-Creation-Date\|PO-Revision-Date\|Last-Translator\|Language-Team\|MIME-Version\|Content-Type\|Content-Transfer-Encoding\|Plural-Forms\|X-Generator\): " contained
@@ -66,7 +69,8 @@ syn match poObsolete "^#\~.*$"
 syn match poKDEdesktopFile "\"\(Name\|Comment\|GenericName\|Description\|Keywords\|About\)="ms=s+1,me=e-1
 
 " Accelerator keys - this messes up if the preceding or following char is a multibyte unicode char
-syn match poAccelerator  contained "[^&_~][&_~]\(\a\|\d\)[^:]"ms=s+1,me=e-1 
+syn match poAcceleratorId  contained "[^&_~][&_~]\(\a\|\d\)[^:]"ms=s+1,me=e-1 
+syn match poAcceleratorStr  contained "[^&_~][&_~]\(\a\|\d\)[^:]"ms=s+1,me=e-1 contains=@Spell
 
 " Variables simple
 syn match poVariable contained "%\d"
@@ -114,8 +118,9 @@ if version >= 508 || !exists("did_po_syn_inits")
 
   HiLink poFormat	    poSpecial
   HiLink poSpecial	    Special
-  HiLink poAccelerator       Special
-  HiLink poVariable          Special
+  HiLink poAcceleratorId    Special
+  HiLink poAcceleratorStr   Special
+  HiLink poVariable         Special
 
   HiLink poMsguniqError        Special
   HiLink poMsguniqErrorMarkers Comment
